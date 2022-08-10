@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>AutoQuote | 404</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&family=Source+Code+Pro&display=swap');
+			body {
+				font-family: 'Roboto', sans-serif;
+				font-size: 1.75em;
+				color: #000000;
+				background-color: #00ccaa;
+        margin: 1.25em;
+        font-weight: 400;
+			}
+			main {
+				text-align: center;
+			}
+			h1 {
+				margin: 0;
+			}
+			p {
+				margin: 0.125em;
+			}
+			b {
+				font-weight: 700;
+			}
+			code {
+				font-family: 'Ubuntu Mono', 'Source Code Pro', monospace;
+				color: #000000;
+        font-weight: 900;
+        font-size: 1.25em;
+			}
+    </style>
+	</head>
+	<body>
+		<main>
+			<h1><b>HTTP Error</b> <code>404</code><b>:</b></h1>
+      <br>
+			<p>The requested URL <code id="path">/* path */</code> was not found on this server.</p>
+      <br>
+			<p>Why did that happen? ...It's your fault. Yeah, we're blaming it on you.</p>
+		</main>
+		<script>
+			document.getElementById('path').innerText = window.location.pathname + window.location.search;
+		</script>
+	</body>
+</html>
