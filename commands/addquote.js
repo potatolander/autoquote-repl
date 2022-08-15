@@ -4,7 +4,7 @@ const fs = require('node:fs');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('addquote')
-		.setDescription('Add a quote')
+		.setDescription('Adds a quote')
     .setDMPermission(false)
     .addStringOption((option) => {
       return option

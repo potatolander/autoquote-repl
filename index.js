@@ -1,6 +1,7 @@
 const { ActivityType, Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const { inviteLink } = require('./config.json');
 
 const app = require('express')();
 app.get('/', (req, res) => {
@@ -9,18 +10,40 @@ app.get('/', (req, res) => {
 });
 app.get('/allquotes', (req, res) => {
   res.set('Content-Type', 'text/html');
-  res.end(fs.readFileSync('quotes.txt', 'utf-8').replace(/\n/g, '<br>'));
+  res.end(`
+<!DOCTYPE html>
+<html lang='en-us'>
+<head>
+<title>AutoQuote | All Quotes</title>
+<style>
+body {
+background-color: #000000;
+color: #f5f5f5;
+font-family: sans-serif;
+font-size: 1.25em;
+line-height: 1.75em;
+}
+</style>
+</head>
+<body>
+${fs.readFileSync('quotes.txt', 'utf-8').replace(/\n/g, '<br>')}
+</body>
+</html>
+  `);
 });
-app.all(/^\/(?!(|allquotes)$).*$/iu, (req, res) => {
+app.get('/invite', (req, res) => {
+  res.redirect(inviteLink);
+});
+app.all(/^\/(?!(|allquotes|invite)$).*$/iu, (req, res) => {
   res.sendFile(__dirname + '/web/404.html');
 });
-app.listen(443);
 
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds
 	]
 });
+
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -31,14 +54,17 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-client.once('ready', () => {
+client.on('ready', () => {
+  console.log('Ready!');
   client.user.setPresence({
     activities: [
-      { name: '/quotehelp', type: ActivityType.Playing }
+      {
+        name: '/quotehelp',
+        type: ActivityType.Playing
+      }
     ],
     status: 'online'
   });
-	console.log('Ready!');
 });
 
 client.on('interactionCreate', async interaction => {
@@ -56,4 +82,6 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN).catch(error => console.log);
+
+app.listen(443);

@@ -6,9 +6,10 @@ module.exports = {
 		.setDescription('Displays help for AutoQuote'),
 	async execute(interaction) {
 		await interaction.reply(`
-\`/quotehelp\`: Displays this help message
-\`/addquote\`: Adds a new quote
-\`/allquotes\`: Displays a link to the quotebag
+\`/addquote\`:\tAdds a quote
+\`/allquotes\`:\tProvides a link to the quotebag
+\`/announce\`:\tCreates an announcement in the specified channel
+\`/quotehelp\`:\tDisplays help for AutoQuote
 `);
 	}
 };
